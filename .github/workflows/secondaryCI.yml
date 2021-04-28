@@ -58,7 +58,7 @@ jobs:
             DBTYPE: mysql
             LANG: ru
             WB: both
-          php-versions: '7.2.34'
+          php-versions: '7.3.27'
     steps:
     - name: Checkout
       uses: actions/checkout@v2
