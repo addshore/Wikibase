@@ -1,7 +1,7 @@
 name: Wikibase Secondary CI
 on:
   push:
-    branches: [ master ]
+    branches: [ master, gha-composer-2 ]
 
 jobs:
   secondary-ci:
