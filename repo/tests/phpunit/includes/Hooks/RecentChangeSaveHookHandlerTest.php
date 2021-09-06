@@ -5,6 +5,7 @@ declare( strict_types=1 );
 namespace Wikibase\Repo\Tests\Hooks;
 
 use CentralIdLookup;
+use MediaWiki\MediaWikiServices;
 use MediaWikiIntegrationTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use RecentChange;
@@ -12,6 +13,7 @@ use Wikibase\Lib\Changes\ChangeStore;
 use Wikibase\Lib\Changes\EntityChange;
 use Wikibase\Lib\Store\Sql\EntityChangeLookup;
 use Wikibase\Repo\Hooks\RecentChangeSaveHookHandler;
+use WikiMap;
 
 /**
  * @covers \Wikibase\Repo\Hooks\RecentChangeSaveHookHandler
@@ -106,6 +108,39 @@ class RecentChangeSaveHookHandlerTest extends MediaWikiIntegrationTestCase {
 		$changeMetaData = $entityChange->getMetadata();
 		$this->assertSame( $testUser->getName(), $changeMetaData['user_text'] );
 		$this->assertSame( $expectedUserId, $changeMetaData['central_user_id'] );
+	}
+
+	public function testGivenRecentChangeForEntityChange_schedulesDispatchJobForEntityChange() {
+		global $wgWBRepoSettings;
+		$newRepoSettings = $wgWBRepoSettings;
+		$newRepoSettings['dispatchViaJobsEnabled'] = true;
+		$this->setMwGlobals( 'wgWBRepoSettings', $newRepoSettings );
+		$recentChangeAttrs = [
+			'rc_timestamp' => 1234567890,
+			'rc_bot' => 1,
+			'rc_cur_id' => 42,
+			'rc_last_oldid' => 776,
+			'rc_this_oldid' => 777,
+			'rc_comment' => 'edit summary',
+			'rc_user' => 321,
+			'rc_user_text' => 'some_user',
+		];
+		$recentChange = $this->newStubRecentChangeWithAttributes( $recentChangeAttrs );
+		$entityChange = $this->newEntityChange();
+
+		$this->changeHolder->transmitChange( $entityChange );
+		$this->subscriptionLookup->method( 'getSubscribers' )
+			->willReturn( [ 'enwiki' ] );
+
+		$this->newHookHandler()->onRecentChange_save( $recentChange );
+
+		$wiki = WikiMap::getCurrentWikiDbDomain()->getId();
+		$jobQueueGroup = MediaWikiServices::getInstance()->getJobQueueGroupFactory()->makeJobQueueGroup( $wiki );
+		$queuedJobs = $jobQueueGroup->get( 'DispatchChanges' )->getAllQueuedJobs();
+		$job = $queuedJobs->current();
+		$this->assertNotNull( $job );
+		$actualEntityId = $job->getParams()['entityId'];
+		$this->assertSame( $entityChange->getEntityId()->getSerialization(), $actualEntityId );
 	}
 
 	private function newHookHandler(): RecentChangeSaveHookHandler {
