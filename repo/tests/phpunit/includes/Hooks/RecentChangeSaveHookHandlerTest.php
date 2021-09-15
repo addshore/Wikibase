@@ -44,6 +44,9 @@ class RecentChangeSaveHookHandlerTest extends MediaWikiIntegrationTestCase {
 
 		$this->changeLookup = $this->createStub( EntityChangeLookup::class );
 		$this->changeStore = $this->createStub( ChangeStore::class );
+		$this->changeStore->method( 'saveChange' )->willReturnCallback( function ( $change ) {
+			$change->setField( 'id', 123 );
+		} );
 		$this->centralIdLookup = null; // CentralIdLookupFactory::getNonLocalLookup() may return null in the hook's factory function
 	}
 
