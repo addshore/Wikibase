@@ -34,16 +34,17 @@ class ParameterizedDescriptionTraitTest extends MediaWikiIntegrationTestCase {
 		$this->setUserLang( 'qqx' );
 	}
 
-	private function setFederatedPropertiesEnabled() {
-		$this->markTestSkipped( 'federatedPropertiesEnabled is forced to false for REL1_37' );
-		$settings = WikibaseRepo::getSettings();
-		$settings->setSetting( 'federatedPropertiesEnabled', true );
+	private function setFederatedPropertiesEnabled( bool $enabled ) {
+		$this->markTestSkipped( 'federatedPropertiesEnabled is forced to false for REL1_38' );
+		WikibaseRepo::getSettings()
+			->setSetting( 'federatedPropertiesEnabled', $enabled );
 	}
 
 	/**
 	 * @dataProvider specialPageProvider
 	 */
 	public function testParameterizedDescriptionOnSetDescriptionPage( $page, $expected ) {
+		$this->setFederatedPropertiesEnabled( false );
 		$this->assertSame(
 			$expected,
 			$page->getDescription()
@@ -54,7 +55,7 @@ class ParameterizedDescriptionTraitTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider specialPageProvider_federatedPropertiesEnabled
 	 */
 	public function testParameterizedDescriptionOnSetDescriptionPage_federatedPropertiesEnabled( $page, $expected ) {
-		$this->setFederatedPropertiesEnabled();
+		$this->setFederatedPropertiesEnabled( true );
 		$this->assertSame(
 			$expected,
 			$page->getDescription()
