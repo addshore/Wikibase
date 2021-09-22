@@ -9,6 +9,8 @@ use MediaWiki\MediaWikiServices;
 use MediaWiki\User\CentralId\CentralIdLookupFactory;
 use RecentChange;
 use User;
+use Wikibase\Lib\Changes\Change;
+use Wikibase\Lib\Changes\ChangeRow;
 use Wikibase\Lib\Changes\ChangeStore;
 use Wikibase\Lib\Changes\EntityChange;
 use Wikibase\Lib\Rdbms\RepoDomainDbFactory;
@@ -95,8 +97,8 @@ class RecentChangeSaveHookHandler {
 
 	private function setChangeMetaData( EntityChange $change, RecentChange $rc, int $centralUserId ): void {
 		$change->setFields( [
-			'revision_id' => $rc->getAttribute( 'rc_this_oldid' ),
-			'time' => $rc->getAttribute( 'rc_timestamp' ),
+			ChangeRow::REVISION_ID => $rc->getAttribute( 'rc_this_oldid' ),
+			ChangeRow::TIME => $rc->getAttribute( 'rc_timestamp' ),
 		] );
 
 		$change->setMetadata( [
