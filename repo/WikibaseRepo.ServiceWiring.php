@@ -665,7 +665,8 @@ return [
 			new SqlSiteLinkConflictLookup(
 				WikibaseRepo::getRepoDomainDbFactory( $services )->newRepoDb(),
 				WikibaseRepo::getEntityIdComposer( $services )
-			)
+			),
+			WikibaseRepo::getTermValidatorFactory()
 		);
 	},
 
