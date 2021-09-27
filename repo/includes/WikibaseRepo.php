@@ -125,6 +125,7 @@ use Wikibase\Repo\Store\BagOStuffSiteLinkConflictLookup;
 use Wikibase\Repo\Store\EntityPermissionChecker;
 use Wikibase\Repo\Store\EntityTitleStoreLookup;
 use Wikibase\Repo\Store\IdGenerator;
+use Wikibase\Repo\Store\Sql\DispatchStats;
 use Wikibase\Repo\Store\Store;
 use Wikibase\Repo\Store\TermsCollisionDetector;
 use Wikibase\Repo\Store\TermsCollisionDetectorFactory;
@@ -1067,6 +1068,11 @@ class WikibaseRepo {
 	): BagOStuffSiteLinkConflictLookup {
 		return ( $services ?: MediaWikiServices::getInstance() )
 			->get( 'WikibaseRepo.BagOStuffSiteLinkConflictLookup' );
+	}
+
+	public static function getDispatchStats( ContainerInterface $services = null ): DispatchStats {
+		return ( $services ?: MediaWikiServices::getInstance() )
+			->get( 'WikibaseRepo.DispatchStats' );
 	}
 
 }

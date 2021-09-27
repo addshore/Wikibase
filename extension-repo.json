@@ -461,7 +461,7 @@
 		"DispatchStats": {
 			"class": "Wikibase\\Repo\\Specials\\SpecialDispatchStats",
 			"services": [
-				"WikibaseRepo.RepoDomainDbFactory"
+				"WikibaseRepo.DispatchStats"
 			]
 		},
 		"EntityData": {
