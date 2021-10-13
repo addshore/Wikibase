@@ -89,8 +89,7 @@ class RecentChangeSaveHookHandler {
 		// FIXME: inject settings instead?
 		if ( WikibaseRepo::getSettings()->getSetting( 'dispatchViaJobsEnabled' ) ) {
 			$this->enqueueDispatchChangesJob(
-				$change->getEntityId()->getSerialization(),
-				$change->getId()
+				$change->getEntityId()->getSerialization()
 			);
 		}
 	}
@@ -116,8 +115,8 @@ class RecentChangeSaveHookHandler {
 		);
 	}
 
-	private function enqueueDispatchChangesJob( string $entityIdSerialization, int $changeId ): void {
-		$job = DispatchChangesJob::makeJobSpecification( $entityIdSerialization, $changeId );
+	private function enqueueDispatchChangesJob( string $entityIdSerialization ): void {
+		$job = DispatchChangesJob::makeJobSpecification( $entityIdSerialization );
 		$jobQueueGroup = MediaWikiServices::getInstance()->getJobQueueGroupFactory()->makeJobQueueGroup();
 		$jobQueueGroup->lazyPush( $job );
 	}
