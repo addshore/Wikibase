@@ -114,10 +114,6 @@ class RecentChangeSaveHookHandlerTest extends MediaWikiIntegrationTestCase {
 	}
 
 	public function testGivenRecentChangeForEntityChange_schedulesDispatchJobForEntityChange() {
-		global $wgWBRepoSettings;
-		$newRepoSettings = $wgWBRepoSettings;
-		$newRepoSettings['dispatchViaJobsEnabled'] = true;
-		$this->setMwGlobals( 'wgWBRepoSettings', $newRepoSettings );
 		$recentChangeAttrs = [
 			'rc_timestamp' => 1234567890,
 			'rc_bot' => 1,

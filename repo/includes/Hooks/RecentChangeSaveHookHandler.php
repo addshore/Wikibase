@@ -19,7 +19,6 @@ use Wikibase\Repo\Store\Sql\SqlSubscriptionLookup;
 use Wikibase\Lib\Store\Sql\EntityChangeLookup;
 use Wikibase\Repo\ChangeModification\DispatchChangesJob;
 use Wikibase\Repo\Store\Store;
-use Wikibase\Repo\WikibaseRepo;
 
 //phpcs:disable MediaWiki.NamingConventions.LowerCamelFunctionsName.FunctionName
 /**
@@ -86,12 +85,9 @@ class RecentChangeSaveHookHandler {
 			}
 		}
 
-		// FIXME: inject settings instead?
-		if ( WikibaseRepo::getSettings()->getSetting( 'dispatchViaJobsEnabled' ) ) {
-			$this->enqueueDispatchChangesJob(
-				$change->getEntityId()->getSerialization()
-			);
-		}
+		$this->enqueueDispatchChangesJob(
+			$change->getEntityId()->getSerialization()
+		);
 	}
 
 	private function setChangeMetaData( EntityChange $change, RecentChange $rc, int $centralUserId ): void {
