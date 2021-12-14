@@ -2057,6 +2057,7 @@ return [
 
 		$propertyOrderProvider = new CachingPropertyOrderProvider(
 			new WikiPagePropertyOrderProvider(
+				$services->getWikiPageFactory(),
 				$services->getTitleFactory()
 					->newFromText( 'MediaWiki:Wikibase-SortedProperties' )
 			),
