@@ -606,6 +606,7 @@ return [
 
 	'WikibaseRepo.EditFilterHookRunner' => function ( MediaWikiServices $services ): EditFilterHookRunner {
 		return new MediawikiEditFilterHookRunner(
+			$services->getWikiPageFactory(),
 			WikibaseRepo::getEntityNamespaceLookup( $services ),
 			WikibaseRepo::getEntityTitleStoreLookup( $services ),
 			WikibaseRepo::getEntityContentFactory( $services )
