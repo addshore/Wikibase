@@ -13,6 +13,7 @@ use Wikibase\Lib\Changes\Change;
 use Wikibase\Lib\Changes\ChangeRow;
 use Wikibase\Lib\Changes\ChangeStore;
 use Wikibase\Lib\Changes\EntityChange;
+use Wikibase\Lib\Changes\ItemChange;
 use Wikibase\Lib\Rdbms\RepoDomainDbFactory;
 use Wikibase\Repo\Notifications\ChangeHolder;
 use Wikibase\Repo\Store\Sql\SqlSubscriptionLookup;
@@ -70,24 +71,22 @@ class RecentChangeSaveHookHandler {
 		if ( $logType === null || ( $logType === 'delete' && $logAction === 'restore' ) ) {
 			$change = $this->changeLookup->loadByRevisionId( $revId, EntityChangeLookup::FROM_MASTER );
 
-			if ( $change ) {
-				if ( $this->centralIdLookup === null ) {
-					$centralUserId = 0;
-				} else {
-					$repoUser = User::newFromIdentity( $recentChange->getPerformerIdentity() );
-					$centralUserId = $this->centralIdLookup->centralIdFromLocalUser(
-						$repoUser
-					);
-				}
+		if ( !$change instanceof EntityChange ) {
+			return;
+		}
 
-				$this->setChangeMetaData( $change, $recentChange, $centralUserId );
-				$this->changeStore->saveChange( $change );
-			}
+		if ( !$this->changeNeedsDispatching( $change ) ) {
+			return;
 		}
 
 		$this->enqueueDispatchChangesJob(
 			$change->getEntityId()->getSerialization()
 		);
+	}
+
+	private function changeNeedsDispatching( EntityChange $change ) {
+		return $this->subscriptionLookup->getSubscribers( $change->getEntityId() ) ||
+			( $change instanceof ItemChange && $change->getSiteLinkDiff()->getOperations() );
 	}
 
 	private function setChangeMetaData( EntityChange $change, RecentChange $rc, int $centralUserId ): void {
