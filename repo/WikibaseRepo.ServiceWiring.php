@@ -1934,7 +1934,7 @@ return [
 			WikibaseRepo::getTypeIdsResolver( $services ),
 			WikibaseRepo::getRepoDomainDbFactory( $services )->newRepoDb(),
 			$services->getMainWANObjectCache(),
-			JobQueueGroup::singleton(),
+			$services->getJobQueueGroup(),
 			WikibaseRepo::getLogger( $services )
 		);
 	},

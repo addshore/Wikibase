@@ -764,6 +764,7 @@
 		"ArticleRevisionVisibilitySet": {
 			"class": "\\Wikibase\\Repo\\Hooks\\ArticleRevisionVisibilitySetHookHandler",
 			"services": [
+				"JobQueueGroup",
 				"WikibaseRepo.LocalEntityNamespaceLookup"
 			]
 		},
@@ -784,6 +785,7 @@
 			"class": "\\Wikibase\\Repo\\Hooks\\DeleteDispatcher",
 			"factory": "\\Wikibase\\Repo\\Hooks\\DeleteDispatcher::factory",
 			"services": [
+				"JobQueueGroup",
 				"WikibaseRepo.EntityIdLookup",
 				"WikibaseRepo.Settings"
 			]
@@ -793,6 +795,7 @@
 			"factory": "\\Wikibase\\Repo\\Hooks\\EntityDataPurger::factory",
 			"services": [
 				"HtmlCacheUpdater",
+				"JobQueueGroup",
 				"WikibaseRepo.EntityDataUriManager",
 				"WikibaseRepo.EntityIdLookup"
 			]
