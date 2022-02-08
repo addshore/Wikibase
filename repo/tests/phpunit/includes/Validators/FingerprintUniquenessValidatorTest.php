@@ -229,7 +229,7 @@ class FingerprintUniquenessValidatorTest extends TestCase {
 
 		$actualResult = $this->getSubjectResult( $valueToValidate );
 
-		$this->assertEquals( $actualResult, $expectedResult );
+		$this->assertEquals( $expectedResult, $actualResult );
 	}
 
 	private function getSubjectResult( $valueToValidate ) {
