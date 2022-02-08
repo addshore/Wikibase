@@ -4,7 +4,7 @@ namespace Wikibase\Repo\Specials;
 
 use Message;
 use OutputPage;
-use SiteLookup;
+use Site;
 use Status;
 use Wikibase\DataModel\Entity\EntityDocument;
 use Wikibase\DataModel\Entity\Item;
@@ -15,6 +15,7 @@ use Wikibase\Lib\Store\EntityTitleLookup;
 use Wikibase\Lib\Summary;
 use Wikibase\Repo\CopyrightMessageBuilder;
 use Wikibase\Repo\EditEntity\MediawikiEditEntityFactory;
+use Wikibase\Repo\SiteLinkTargetProvider;
 use Wikibase\Repo\Specials\HTMLForm\HTMLAliasesField;
 use Wikibase\Repo\Specials\HTMLForm\HTMLContentLanguageField;
 use Wikibase\Repo\Specials\HTMLForm\HTMLTrimmedTextField;
@@ -39,11 +40,6 @@ class SpecialNewItem extends SpecialNewEntity {
 	public const FIELD_PAGE = 'page';
 
 	/**
-	 * @var SiteLookup
-	 */
-	private $siteLookup;
-
-	/**
 	 * @var TermValidatorFactory
 	 */
 	private $termValidatorFactory;
@@ -56,6 +52,16 @@ class SpecialNewItem extends SpecialNewEntity {
 	/** @var ValidatorErrorLocalizer */
 	private $errorLocalizer;
 
+	/**
+	 * @var SiteLinkTargetProvider
+	 */
+	private $siteLinkTargetProvider;
+
+	/**
+	 * @var string[]
+	 */
+	private $siteLinkGroups;
+
 	public function __construct(
 		array $tags,
 		SpecialPageCopyrightView $copyrightView,
@@ -63,10 +69,11 @@ class SpecialNewItem extends SpecialNewEntity {
 		SummaryFormatter $summaryFormatter,
 		EntityTitleLookup $entityTitleLookup,
 		MediawikiEditEntityFactory $editEntityFactory,
-		SiteLookup $siteLookup,
 		TermValidatorFactory $termValidatorFactory,
 		TermsCollisionDetector $termsCollisionDetector,
-		ValidatorErrorLocalizer $errorLocalizer
+		ValidatorErrorLocalizer $errorLocalizer,
+		SiteLinkTargetProvider $siteLinkTargetProvider,
+		array $siteLinkGroups
 	) {
 		parent::__construct(
 			'NewItem',
@@ -78,19 +85,20 @@ class SpecialNewItem extends SpecialNewEntity {
 			$entityTitleLookup,
 			$editEntityFactory
 		);
-		$this->siteLookup = $siteLookup;
 		$this->termValidatorFactory = $termValidatorFactory;
 		$this->termsCollisionDetector = $termsCollisionDetector;
 		$this->errorLocalizer = $errorLocalizer;
+		$this->siteLinkTargetProvider = $siteLinkTargetProvider;
+		$this->siteLinkGroups = $siteLinkGroups;
 	}
 
 	public static function factory(
-		SiteLookup $siteLookup,
 		MediawikiEditEntityFactory $editEntityFactory,
 		EntityNamespaceLookup $entityNamespaceLookup,
 		EntityTitleLookup $entityTitleLookup,
 		TermsCollisionDetector $itemTermsCollisionDetector,
 		SettingsArray $repoSettings,
+		SiteLinkTargetProvider $siteLinkTargetProvider,
 		SummaryFormatter $summaryFormatter,
 		TermValidatorFactory $termValidatorFactory,
 		ValidatorErrorLocalizer $errorLocalizer
@@ -108,10 +116,11 @@ class SpecialNewItem extends SpecialNewEntity {
 			$summaryFormatter,
 			$entityTitleLookup,
 			$editEntityFactory,
-			$siteLookup,
 			$termValidatorFactory,
 			$itemTermsCollisionDetector,
-			$errorLocalizer
+			$errorLocalizer,
+			$siteLinkTargetProvider,
+			$repoSettings->getSetting( 'siteLinkGroups' )
 		);
 	}
 
@@ -141,7 +150,7 @@ class SpecialNewItem extends SpecialNewEntity {
 		$item->setAliases( $languageCode, $formData[ self::FIELD_ALIASES ] );
 
 		if ( isset( $formData[ self::FIELD_SITE ] ) ) {
-			$site = $this->siteLookup->getSite( $formData[ self::FIELD_SITE ] );
+			$site = $this->getSiteLinkTargetSite( $formData[ self::FIELD_SITE ] );
 			$normalizedPageName = $site->normalizePageName( $formData[ self::FIELD_PAGE ] );
 
 			$item->getSiteLinkList()->addNewSiteLink( $site->getGlobalId(), $normalizedPageName );
@@ -192,7 +201,7 @@ class SpecialNewItem extends SpecialNewEntity {
 				'id' => 'wb-newitem-site',
 				'readonly' => 'readonly',
 				'validation-callback' => function ( $siteId, $formData ) {
-					$site = $this->siteLookup->getSite( $siteId );
+					$site = $this->getSiteLinkTargetSite( $siteId );
 
 					if ( $site === null ) {
 						return [ $this->msg( 'wikibase-newitem-not-recognized-siteid' )->text() ];
@@ -211,7 +220,7 @@ class SpecialNewItem extends SpecialNewEntity {
 				'readonly' => 'readonly',
 				'validation-callback' => function ( $pageName, $formData ) {
 					$siteId = $formData['site'];
-					$site = $this->siteLookup->getSite( $siteId );
+					$site = $this->getSiteLinkTargetSite( $siteId );
 					if ( $site === null ) {
 						return true;
 					}
@@ -322,6 +331,14 @@ class SpecialNewItem extends SpecialNewEntity {
 		}
 
 		return $status;
+	}
+
+	private function getSiteLinkTargetSite( string $siteId ): ?Site {
+		$targetSites = $this->siteLinkTargetProvider->getSiteList( $this->siteLinkGroups );
+		if ( !$targetSites->hasSite( $siteId ) ) {
+			return null;
+		}
+		return $targetSites->getSite( $siteId );
 	}
 
 	/**
