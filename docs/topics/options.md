@@ -516,6 +516,11 @@ Enable/Disable the tainted reference feature.
 
 DEFAULT: ```false```
 
+#### restApiEnabled {#repo_restApiEnabled}
+Enable the Wikibase REST API.
+
+DEFAULT: ```false```
+
 #### changeVisibilityNotificationClientRCMaxAge {#repo_changeVisibilityNotificationClientRCMaxAge}
 Value of the `$wgRCMaxAge` setting, which specifies the max age (in seconds) of entries in the `recentchanges` table, on the client wikis.
 
