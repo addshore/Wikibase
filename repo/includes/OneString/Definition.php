@@ -14,6 +14,8 @@ use Wikibase\DataModel\Deserializers\DeserializerFactory;
 use Wikibase\DataAccess\NullPrefetchingTermLookup;
 use Wikibase\Lib\Store\TitleLookupBasedEntityUrlLookup;
 use Wikibase\Lib\Store\TitleLookupBasedEntityExistenceChecker;
+use Wikibase\Repo\Rdf\RdfVocabulary;
+use Wikimedia\Purtle\RdfWriter;
 
 return [
 	// Enables persistence of the entity type in MediaWiki.
@@ -112,5 +114,19 @@ return [
 		// Implement DispatchableSerializer
 		// Just using the same one as the internal serializer for now... (As is done for items and properties right now)
 		return new OneStringSerializer();
+	},
+
+	// Lets add more RDF mappings to our otherwise quite basic entity
+	Def::RDF_BUILDER_FACTORY_CALLBACK => static function (
+		$flavorFlags,
+		RdfVocabulary $vocabulary,
+		RdfWriter $writer,
+		$tracker,
+		$dedupe
+	) {
+		return new OneStringRdfBuilder(
+			$vocabulary,
+			$writer
+		);
 	},
 ];
