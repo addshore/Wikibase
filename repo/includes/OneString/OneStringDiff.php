@@ -1,16 +1,13 @@
 <?php
 
-namespace Wikibase\Repo\SeaHorse;
+namespace Wikibase\Repo\OneString;
 
 use Diff\DiffOp\Diff\Diff;
 use Diff\DiffOp\DiffOp;
 use Wikibase\DataModel\Services\Diff\EntityDiff;
 
-class SeaHorseDiff extends EntityDiff {
+class OneStringDiff extends EntityDiff {
 
-	/**
-	 * @param DiffOp[] $operations
-	 */
 	public function __construct( array $operations = [] ) {
 		parent::__construct( $operations );
 	}
@@ -19,11 +16,6 @@ class SeaHorseDiff extends EntityDiff {
 		return $this['content'] ?? new Diff( [], true );
 	}
 
-	/**
-	 * Returns if there are any changes (equivalent to: any differences between the entities).
-	 *
-	 * @return bool
-	 */
 	public function isEmpty(): bool {
 		// FIXME: Needs to be fixed, otherwise conflict resolution may lead to unexpected results
 		return $this->getContentDiff()->isEmpty();

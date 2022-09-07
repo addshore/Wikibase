@@ -1,11 +1,11 @@
 <?php
 
-namespace Wikibase\Repo\SeaHorse;
+namespace Wikibase\Repo\OneString;
 
-class SeaHorseSerializer implements \Serializers\DispatchableSerializer {
+class OneStringSerializer implements \Serializers\DispatchableSerializer {
 
 	public function isSerializerFor( $object ) {
-		return $object instanceof SeaHorse;
+		return $object instanceof OneString;
 
 	}
 

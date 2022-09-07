@@ -1,20 +1,20 @@
 <?php
 
-namespace Wikibase\Repo\SeaHorse;
+namespace Wikibase\Repo\OneString;
 
 use SpecialPage;
 use Status;
 use HTMLForm;
 use Wikibase\Repo\Specials\HTMLForm\HTMLTrimmedTextField;
 
-class Foal extends SpecialPage {
+class OneStringSpecialCreate extends SpecialPage {
 
 	public static function factory() {
 		return new self();
 	}
 
 	public function __construct() {
-		parent::__construct( 'Foal' );
+		parent::__construct( 'OneStringSpecialCreate' );
 	}
 
 	public function execute( $subPage ) {
@@ -34,9 +34,6 @@ class Foal extends SpecialPage {
 		$form->displayForm( $submitStatus ?: Status::newGood() );
 	}
 
-		/**
-	 * @return HTMLForm
-	 */
 	private function createForm() {
 		return HTMLForm::factory( 'ooui',
 		[
@@ -58,10 +55,10 @@ class Foal extends SpecialPage {
 						return $validationStatus;
 					}
 
-					$entity = new SeaHorse( new SeaHorseId(bin2hex(random_bytes(16))), $data['content'] );
-					$summary = "Neigh";
+					$entity = new OneString( new OneStringId(bin2hex(random_bytes(16))), $data['content'] );
+					$summary = "OneString created";
 
-					$entityRevision = \Wikibase\Repo\WikibaseRepo::getEntityStore()->saveEntity(
+					\Wikibase\Repo\WikibaseRepo::getEntityStore()->saveEntity(
 						$entity,
 						$summary,
 						$this->getContext()->getUser(),

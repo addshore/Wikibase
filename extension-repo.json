@@ -329,9 +329,9 @@
 		}
 	},
 	"SpecialPages": {
-		"Foal": {
-			"class": "Wikibase\\Repo\\SeaHorse\\Foal",
-			"factory": "Wikibase\\Repo\\SeaHorse\\Foal::factory"
+		"OneStringSpecialCreate": {
+			"class": "Wikibase\\Repo\\OneString\\OneStringSpecialCreate",
+			"factory": "Wikibase\\Repo\\OneString\\OneStringSpecialCreate::factory"
 		},
 		"NewItem": {
 			"class": "Wikibase\\Repo\\Specials\\SpecialNewItem",

@@ -11,6 +11,7 @@
 
 use MediaWiki\MediaWikiServices;
 use Wikibase\Lib\SettingsArray;
+use Wikibase\Repo\OneString\OneStringConstants;
 
 global $wgCdnMaxAge;
 
@@ -329,7 +330,7 @@ return [
 			$entityNamespaces = [
 				'item' => WB_NS_ITEM,
 				'property' => WB_NS_PROPERTY,
-				\Wikibase\Repo\SeaHorse\SeaHorseSaddle::ENTITY_TYPE => 4269,
+				OneStringConstants::ENTITY_TYPE => OneStringConstants::NS_ID,
 			];
 
 			$hookContainer = MediaWikiServices::getInstance()->getHookContainer();
