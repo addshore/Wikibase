@@ -11,6 +11,9 @@ use \Language;
 use Wikibase\Lib\TermLanguageFallbackChain;
 use Wikibase\DataModel\Entity\EntityDocument;
 use Wikibase\DataModel\Deserializers\DeserializerFactory;
+use Wikibase\DataAccess\NullPrefetchingTermLookup;
+use Wikibase\Lib\Store\TitleLookupBasedEntityUrlLookup;
+use Wikibase\Lib\Store\TitleLookupBasedEntityExistenceChecker;
 
 return [
 	// Enables persistence of the entity type in MediaWiki.
@@ -75,5 +78,22 @@ return [
 	Def::ENTITY_ID_PATTERN => '/^[1-9a-z]+/i',
 	Def::ENTITY_ID_BUILDER => static function ( $serialization ) {
 		return new OneStringId( $serialization );
+	},
+
+	// Adding the view factor and ID builder seemed to break recent changes
+	// We apparently need to provide these services to fix it...
+	// After this point the titles in recent changes are instead rendered as the ID only
+	Def::PREFETCHING_TERM_LOOKUP_CALLBACK => static function () {
+		return new NullPrefetchingTermLookup();
+	},
+	Def::URL_LOOKUP_CALLBACK => static function () {
+		return new TitleLookupBasedEntityUrlLookup( WikibaseRepo::getEntityTitleLookup() );
+	},
+	Def::EXISTENCE_CHECKER_CALLBACK => static function () {
+		$services = \MediaWiki\MediaWikiServices::getInstance();
+		return new TitleLookupBasedEntityExistenceChecker(
+			WikibaseRepo::getEntityTitleLookup( $services ),
+			$services->getLinkBatchFactory()
+		);
 	},
 ];
