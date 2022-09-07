@@ -96,4 +96,9 @@ return [
 			$services->getLinkBatchFactory()
 		);
 	},
+
+	// Now MediaWiki will format the links as we desire
+	Def::LINK_FORMATTER_CALLBACK => static function ( Language $language ) {
+		return new OneStringEntityLinkFormatter();
+	},
 ];
