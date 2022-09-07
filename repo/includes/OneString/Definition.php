@@ -106,4 +106,11 @@ return [
 	Def::ENTITY_FACTORY_CALLBACK => static function () {
 		return new OneString();
 	},
+
+	// We need a public serialization for things like wbgetentities and Special:EntityData to work
+	Def::SERIALIZER_FACTORY_CALLBACK => static function ( SerializerFactory $serializerFactory ) {
+		// Implement DispatchableSerializer
+		// Just using the same one as the internal serializer for now... (As is done for items and properties right now)
+		return new OneStringSerializer();
+	},
 ];
