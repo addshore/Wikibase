@@ -6,6 +6,8 @@ use SpecialPage;
 use Status;
 use HTMLForm;
 use Wikibase\Repo\Specials\HTMLForm\HTMLTrimmedTextField;
+use Wikibase\DataModel\Term\Fingerprint;
+use Wikibase\DataModel\Term\TermList;
 
 class OneStringSpecialCreate extends SpecialPage {
 
@@ -37,11 +39,19 @@ class OneStringSpecialCreate extends SpecialPage {
 	private function createForm() {
 		return HTMLForm::factory( 'ooui',
 		[
+			'enlabel' => [
+				'label' => 'enlabel',
+				'name' => 'enlabel',
+				'class' => HTMLTrimmedTextField::class,
+				'id' => 'wb-newentity-enlabel',
+			],
 			'content' => [
+				'label' => 'content',
 				'name' => 'content',
 				'class' => HTMLTrimmedTextField::class,
 				'id' => 'wb-newentity-content',
-			]],
+			]
+		],
 			$this->getContext()
 			)
 			->setId( 'mw-newentity-form1' )
@@ -55,7 +65,13 @@ class OneStringSpecialCreate extends SpecialPage {
 						return $validationStatus;
 					}
 
-					$entity = new OneString( new OneStringId(bin2hex(random_bytes(16))), $data['content'] );
+					$entity = new OneString(
+						new OneStringId(bin2hex(random_bytes(16))),
+						$data['content'],
+						new Fingerprint(
+							new TermList([new \Wikibase\DataModel\Term\Term('en', $data['enlabel'])])
+						)
+					);
 					$summary = "OneString created";
 
 					\Wikibase\Repo\WikibaseRepo::getEntityStore()->saveEntity(

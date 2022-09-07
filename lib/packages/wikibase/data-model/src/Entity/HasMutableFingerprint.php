@@ -2,6 +2,8 @@
 
 namespace Wikibase\DataModel\Entity;
 
+use Wikibase\DataModel\Term\Fingerprint;
+
 trait HasMutableFingerprint {
 
 	private $fingerprint;
