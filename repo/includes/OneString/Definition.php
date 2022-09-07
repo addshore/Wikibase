@@ -101,4 +101,9 @@ return [
 	Def::LINK_FORMATTER_CALLBACK => static function ( Language $language ) {
 		return new OneStringEntityLinkFormatter();
 	},
+
+	// Now wbsetlabel will be able to function for OneString entities
+	Def::ENTITY_FACTORY_CALLBACK => static function () {
+		return new OneString();
+	},
 ];

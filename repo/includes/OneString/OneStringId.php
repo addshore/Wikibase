@@ -35,7 +35,7 @@ class OneStringId implements EntityId {
 	 * @return string
 	 */
 	public function getLocalPart() {
-		throw new \Exception( 'Not implemented' );
+		return $this->getSerialization();
 	}
 
 	/**
