@@ -11,6 +11,8 @@ class OneStringSerializer implements \Serializers\DispatchableSerializer {
 
 	public function serialize( $object ) {
 		return [
+			'id' => $object->getId()->getSerialization(),
+			'type' => OneStringConstants::ENTITY_TYPE,
 			'content' => $object->getContent(),
 		];
 	}
