@@ -39,6 +39,7 @@
 	EntityInitializer.newFromEntityLoadedHook = function () {
 		var entityPromise = $.Deferred( function ( deferred ) {
 			mw.hook( 'wikibase.entityPage.entityLoaded' ).add( function ( entity ) {
+				console.log( "received" );
 				deferred.resolve( entity );
 			} );
 		} ).promise();

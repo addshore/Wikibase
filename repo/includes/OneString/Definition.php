@@ -73,7 +73,7 @@ return [
 		EntityDocument $entity
 	) {
 		// Implements EntityDocumentView
-		return new OneStringView();
+		return new OneStringView( $language, $fallbackChain, $entity );
 	},
 	// OutputPageEntityIdreader complains if there is not yet an ID parser...
 	// This is again a dispatching sevrice, hence an ID pattern is required

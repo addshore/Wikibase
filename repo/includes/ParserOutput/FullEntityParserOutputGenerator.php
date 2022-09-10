@@ -124,6 +124,7 @@ class FullEntityParserOutputGenerator implements EntityParserOutputGenerator {
 
 		//@todo: record sitelinks as iwlinks
 
+
 		$this->addModules( $parserOutput );
 
 		//FIXME: some places, like Special:NewItem, don't want to override the page title.

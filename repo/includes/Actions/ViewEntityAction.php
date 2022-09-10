@@ -76,7 +76,6 @@ class ViewEntityAction extends ViewAction {
 
 	private function showEntityPage() {
 		$outputPage = $this->getOutput();
-
 		// NOTE: page-wide property, independent of user permissions
 		$outputPage->addJsConfigVars( 'wbIsEditView', $this->isEditable() );
 		$this->getArticle()->view();
