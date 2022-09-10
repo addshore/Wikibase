@@ -329,6 +329,10 @@
 		}
 	},
 	"SpecialPages": {
+		"OneStringSpecialCreate": {
+			"class": "Wikibase\\Repo\\OneString\\OneStringSpecialCreate",
+			"factory": "Wikibase\\Repo\\OneString\\OneStringSpecialCreate::factory"
+		},
 		"NewItem": {
 			"class": "Wikibase\\Repo\\Specials\\SpecialNewItem",
 			"factory": "Wikibase\\Repo\\Specials\\SpecialNewItem::factory",

@@ -36,17 +36,14 @@ class Item implements
 	ClearableEntity
 {
 
+	use HasMutableFingerprint;
+
 	public const ENTITY_TYPE = 'item';
 
 	/**
 	 * @var ItemId|null
 	 */
 	private $id;
-
-	/**
-	 * @var Fingerprint
-	 */
-	private $fingerprint;
 
 	/**
 	 * @var SiteLinkList
@@ -102,87 +99,6 @@ class Item implements
 		}
 
 		$this->id = $id;
-	}
-
-	/**
-	 * @since 0.7.3
-	 *
-	 * @return Fingerprint
-	 */
-	public function getFingerprint() {
-		return $this->fingerprint;
-	}
-
-	/**
-	 * @since 0.7.3
-	 *
-	 * @param Fingerprint $fingerprint
-	 */
-	public function setFingerprint( Fingerprint $fingerprint ) {
-		$this->fingerprint = $fingerprint;
-	}
-
-	/**
-	 * @see LabelsProvider::getLabels
-	 *
-	 * @since 6.0
-	 *
-	 * @return TermList
-	 */
-	public function getLabels() {
-		return $this->fingerprint->getLabels();
-	}
-
-	/**
-	 * @see DescriptionsProvider::getDescriptions
-	 *
-	 * @since 6.0
-	 *
-	 * @return TermList
-	 */
-	public function getDescriptions() {
-		return $this->fingerprint->getDescriptions();
-	}
-
-	/**
-	 * @see AliasesProvider::getAliasGroups
-	 *
-	 * @since 6.0
-	 *
-	 * @return AliasGroupList
-	 */
-	public function getAliasGroups() {
-		return $this->fingerprint->getAliasGroups();
-	}
-
-	/**
-	 * @param string $languageCode
-	 * @param string $value
-	 *
-	 * @throws InvalidArgumentException
-	 */
-	public function setLabel( $languageCode, $value ) {
-		$this->fingerprint->setLabel( $languageCode, $value );
-	}
-
-	/**
-	 * @param string $languageCode
-	 * @param string $value
-	 *
-	 * @throws InvalidArgumentException
-	 */
-	public function setDescription( $languageCode, $value ) {
-		$this->fingerprint->setDescription( $languageCode, $value );
-	}
-
-	/**
-	 * @param string $languageCode
-	 * @param string[] $aliases
-	 *
-	 * @throws InvalidArgumentException
-	 */
-	public function setAliases( $languageCode, array $aliases ) {
-		$this->fingerprint->setAliasGroup( $languageCode, $aliases );
 	}
 
 	/**

@@ -73,8 +73,11 @@ use Wikibase\Repo\Rdf\ValueSnakRdfBuilderFactory;
 use Wikibase\Repo\WikibaseRepo;
 use Wikibase\View\FingerprintableEntityMetaTagsCreator;
 use Wikimedia\Purtle\RdfWriter;
+use Wikibase\Repo\OneString\OneStringConstants;
 
 return [
+	// Loading the entity type here for now, but this could just as well be added via the existing hook.
+	OneStringConstants::ENTITY_TYPE => require __DIR__ . '/includes/OneString/Definition.php',
 	'item' => [
 		Def::ARTICLE_ID_LOOKUP_CALLBACK => function () {
 			return new TitleLookupBasedEntityArticleIdLookup(

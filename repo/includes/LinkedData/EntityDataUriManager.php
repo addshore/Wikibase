@@ -5,6 +5,7 @@ namespace Wikibase\Repo\LinkedData;
 use Title;
 use Wikibase\DataModel\Entity\EntityId;
 use Wikibase\Lib\Store\EntityTitleLookup;
+use Wikibase\DataModel\Entity\Int32EntityId;
 
 /**
  * Manages URIs for the linked data interface
@@ -121,8 +122,10 @@ class EntityDataUriManager {
 	public function getDocName( EntityId $id, $format = '' ) {
 		$doc = $id->getSerialization();
 
-		//Note: Use upper case everywhere.
-		$doc = strtoupper( $doc );
+		// Special case, always uppercase the first letter of prefixed entity ids?
+		if ( $id instanceof Int32EntityId ){
+			$doc = strtoupper( $doc );
+		}
 
 		if ( $format !== null && $format !== '' ) {
 			$ext = $this->getExtension( $format );

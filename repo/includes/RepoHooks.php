@@ -58,6 +58,7 @@ use Wikibase\Repo\Store\RateLimitingIdGenerator;
 use Wikibase\Repo\Store\Sql\SqlSubscriptionLookup;
 use Wikibase\View\ViewHooks;
 use WikiPage;
+use Wikibase\Repo\OneString\OneStringConstants;
 
 /**
  * File defining the hook handlers for the Wikibase extension.
@@ -176,6 +177,8 @@ final class RepoHooks {
 		$wgExtraNamespaces[WB_NS_ITEM_TALK] = 'Item_talk';
 		$wgExtraNamespaces[WB_NS_PROPERTY] = 'Property';
 		$wgExtraNamespaces[WB_NS_PROPERTY_TALK] = 'Property_talk';
+
+		$wgExtraNamespaces[OneStringConstants::NS_ID] = 'OneString';
 
 		$wgNamespacesToBeSearchedDefault[WB_NS_ITEM] = true;
 	}

@@ -1,4 +1,5 @@
 <?php
+use Wikibase\Repo\OneString\OneStringConstants;
 
 /**
  * Namespace internationalization for the Wikibase extension.
@@ -42,6 +43,8 @@ $namespaceNames['en'] = [
 
 	WB_NS_QUERY      => 'Query',
 	WB_NS_QUERY_TALK => 'Query_talk',
+
+	OneStringConstants::NS_ID => 'OneString'
 ];
 
 $namespaceNames['be-tarask'] = [

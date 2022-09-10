@@ -88,6 +88,7 @@
 		if ( wbEntity ) {
 			// Note this assumes "wbEntity" contains valid JSON, and will throw an error otherwise.
 			mw.hook( 'wikibase.entityPage.entityLoaded' ).fire( deepFreeze( wbEntity ) );
+			console.log( 'wikibase.entityPage.entityLoaded fired' );
 		}
 	} );
 
