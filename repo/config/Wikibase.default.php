@@ -357,6 +357,7 @@ return [
 			$entityNamespaces = [
 				'item' => WB_NS_ITEM,
 				'property' => WB_NS_PROPERTY,
+				\Wikibase\Repo\Phrase\PhraseDocument::TYPE => 4269,
 			];
 
 			$hookContainer = MediaWikiServices::getInstance()->getHookContainer();

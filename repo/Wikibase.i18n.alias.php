@@ -11,6 +11,7 @@ $specialPageAliases = [];
 
 /** English (English) */
 $specialPageAliases['en'] = [
+	'NewPhrase' => [ 'NewPhrase' ],
 	'AvailableBadges' => [ 'AvailableBadges' ],
 	'DispatchStats' => [ 'DispatchStats' ],
 	'EntityData' => [ 'EntityData' ],

@@ -333,6 +333,10 @@
 		}
 	},
 	"SpecialPages": {
+		"NewPhrase": {
+			"class": "Wikibase\\Repo\\Phrase\\SpecialNewPhrase",
+			"factory": "Wikibase\\Repo\\Phrase\\SpecialNewPhrase::factory"
+		},
 		"NewItem": {
 			"class": "Wikibase\\Repo\\Specials\\SpecialNewItem",
 			"factory": "Wikibase\\Repo\\Specials\\SpecialNewItem::factory",

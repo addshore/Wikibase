@@ -75,8 +75,10 @@ use Wikibase\Repo\Rdf\ValueSnakRdfBuilderFactory;
 use Wikibase\Repo\WikibaseRepo;
 use Wikibase\View\FingerprintableEntityMetaTagsCreator;
 use Wikimedia\Purtle\RdfWriter;
+use Wikibase\Repo\Phrase\PhraseDocument;
 
 return [
+	PhraseDocument::TYPE => require __DIR__ . '/includes/Phrase/Definition.php',
 	'item' => [
 		Def::ARTICLE_ID_LOOKUP_CALLBACK => function () {
 			return new TitleLookupBasedEntityArticleIdLookup(
