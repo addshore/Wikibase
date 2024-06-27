@@ -15,6 +15,9 @@
 			"Winston Sung"
 		]
 	},
+	"newphrase": "New Phrase",
+	"wikibase-newentity-language-label": "Language",
+	"wikibase-newentity-phrase-label": "Phrase",
 	"wikibase-desc": "Structured data repository",
 	"wikibase-entity": "Entity",
 	"wikibase-entity-item": "Item",
