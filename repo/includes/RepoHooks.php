@@ -179,6 +179,8 @@ final class RepoHooks {
 		$wgExtraNamespaces[WB_NS_PROPERTY] = 'Property';
 		$wgExtraNamespaces[WB_NS_PROPERTY_TALK] = 'Property_talk';
 
+		$wgExtraNamespaces[4269] = 'Phrase';
+
 		$wgNamespacesToBeSearchedDefault[WB_NS_ITEM] = true;
 	}
 

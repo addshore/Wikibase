@@ -77,6 +77,7 @@ use Wikibase\View\FingerprintableEntityMetaTagsCreator;
 use Wikimedia\Purtle\RdfWriter;
 
 return [
+	\Wikibase\Repo\Phrase\PhraseDocument::TYPE => require __DIR__ . '/includes/Phrase/Definition.php',
 	'item' => [
 		Def::ARTICLE_ID_LOOKUP_CALLBACK => function () {
 			return new TitleLookupBasedEntityArticleIdLookup(
