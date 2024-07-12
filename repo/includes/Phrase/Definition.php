@@ -40,7 +40,7 @@ return [
 	) {
 		return new PhraseView();
 	},
-	Def::ENTITY_ID_PATTERN => '/^Phrase[0-9a-z]+\.[0-9]+/i',
+	Def::ENTITY_ID_PATTERN => '/^Phrase[0-9a-z]+/i',
 	Def::ENTITY_ID_BUILDER => static function ( $serialization ) {
 		return new PhraseId( $serialization );
 	},

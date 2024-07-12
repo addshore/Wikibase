@@ -12,6 +12,13 @@ class PhraseId implements EntityId {
 		$this->id = $id;
 	}
 
+	public static function newRandom() {
+		$s = uniqid( 'Phrase', true );
+		// Remove the dot, as it is not allowed in entity IDs
+		$s = str_replace( '.', '', $s );
+		return new self( $s );
+	}
+
 	public function getEntityType() {
 		return PhraseDocument::TYPE;
 	}

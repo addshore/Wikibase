@@ -66,7 +66,7 @@ class SpecialNewPhrase extends SpecialPage {
 						return $validationStatus;
 					}
 
-					$entity = new PhraseDocument( new PhraseId(uniqid( 'Phrase', true )), $data['language'], $data['phrase'] );
+					$entity = new PhraseDocument( PhraseId::newRandom(), $data['language'], $data['phrase'] );
 
 					\Wikibase\Repo\WikibaseRepo::getEntityStore()->saveEntity(
 						$entity,
