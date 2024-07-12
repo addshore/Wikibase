@@ -11,6 +11,8 @@ class PhraseSerailizer implements \Serializers\DispatchableSerializer {
 
 	public function serialize( $object ) {
 		return [
+			'id' => $object->getId()->getSerialization(),
+			'type' => $object->getType(),
 			'language' => $object->getLanguage(),
 			'phrase' => $object->getPhrase(),
 		];
