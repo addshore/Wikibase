@@ -13,9 +13,11 @@ class PhraseId implements EntityId {
 	}
 
 	public static function newRandom() {
-		$s = uniqid( 'Phrase', true );
+		$s = uniqid( 'PH', true );
 		// Remove the dot, as it is not allowed in entity IDs
 		$s = str_replace( '.', '', $s );
+		// Uppercase it
+		$s = strtoupper( $s );
 		return new self( $s );
 	}
 
