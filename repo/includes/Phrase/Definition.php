@@ -27,6 +27,9 @@ return [
 	Def::DESERIALIZER_FACTORY_CALLBACK => static function ( \Wikibase\DataModel\Deserializers\DeserializerFactory $deserializerFactory ) {
 		return new PhraseDeserializer();
 	},
+	Def::SERIALIZER_FACTORY_CALLBACK => static function ( \Wikibase\DataModel\Serializers\SerializerFactory $serializerFactory ) {
+		return new PhraseSerailizer();
+	},
 	Def::ENTITY_DIFFER_STRATEGY_BUILDER => static function () {
 		return new PhraseDiffer();
 	},
