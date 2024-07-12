@@ -30,4 +30,11 @@ return [
 	Def::ENTITY_DIFFER_STRATEGY_BUILDER => static function () {
 		return new PhraseDiffer();
 	},
+	Def::VIEW_FACTORY_CALLBACK => function(
+		\Language $language,
+		\Wikibase\Lib\TermLanguageFallbackChain $fallbackChain,
+		\Wikibase\DataModel\Entity\EntityDocument $entity
+	) {
+		return new PhraseView();
+	},
 ];
