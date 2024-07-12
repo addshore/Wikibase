@@ -62,4 +62,16 @@ return [
 			WikibaseRepo::getEntityTitleLookup()
 		);
 	},
+	Def::RDF_BUILDER_FACTORY_CALLBACK => static function (
+		$flavorFlags,
+		\Wikibase\Repo\Rdf\RdfVocabulary $vocabulary,
+		\Wikimedia\Purtle\RdfWriter $writer,
+		$tracker,
+		$dedupe
+	) {
+		return new PhraseRdfBuilder(
+			$vocabulary,
+			$writer
+		);
+	},
 ];
