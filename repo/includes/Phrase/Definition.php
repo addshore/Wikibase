@@ -41,4 +41,22 @@ return [
 	Def::ENTITY_ID_BUILDER => static function ( $serialization ) {
 		return new PhraseId( $serialization );
 	},
+	Def::PREFETCHING_TERM_LOOKUP_CALLBACK => static function () {
+		return new \Wikibase\DataAccess\NullPrefetchingTermLookup();
+	},
+	Def::URL_LOOKUP_CALLBACK => static function () {
+		return new \Wikibase\Lib\Store\TitleLookupBasedEntityUrlLookup( WikibaseRepo::getEntityTitleLookup() );
+	},
+	Def::EXISTENCE_CHECKER_CALLBACK => static function () {
+		$services = \MediaWiki\MediaWikiServices::getInstance();
+		return new \Wikibase\Lib\Store\TitleLookupBasedEntityExistenceChecker(
+			WikibaseRepo::getEntityTitleLookup( $services ),
+			$services->getLinkBatchFactory()
+		);
+	},
+	Def::TITLE_TEXT_LOOKUP_CALLBACK => function () {
+		return new \Wikibase\Lib\Store\TitleLookupBasedEntityTitleTextLookup(
+			WikibaseRepo::getEntityTitleLookup()
+		);
+	},
 ];
